@@ -19,6 +19,14 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
+               stage('image Build Stage') {
+            steps {
+                echo 'Hello, Build'
+                sh '''
+                    docker image build -t medical .
+                '''
+            }
+        }
         stage('Deploy Stage') {
             steps {
                 echo 'Hello, JDK'

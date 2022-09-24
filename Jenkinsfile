@@ -28,16 +28,16 @@ pipeline {
                 '''
             }
         }
-        // stage('Tag docker image'){
-        //     steps {
-        //         sh 'docker tag medical ashish142/ecmedical:1.0.0'
-        //     }          
-        // }
-        // stage('Push docker image'){
-        //     steps {
-        //         sh 'sudo docker push ashish142/medical:1.0.0'
-        //     }          
-        // }
+        stage('Tag docker image'){
+            steps {
+                sh 'docker tag medical ashish142/ecmedical:1.0.0'
+            }          
+        }
+        stage('Push docker image'){
+            steps {
+                sh 'sudo docker push ashish142/medical:1.0.0'
+            }          
+        }
         stage('Deploy Stage') {
             steps {
                 echo 'Hello, Docker Deployment.'

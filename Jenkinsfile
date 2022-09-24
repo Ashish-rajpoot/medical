@@ -42,13 +42,13 @@ pipeline {
             steps {
                 echo 'Hello, Docker Deployment.'
                 sh '''
-                 (if  [ $(docker ps -a | grep medical | cut -d " " -f1) ]; then \
+                 (if  [ $( sudo docker ps -a | grep medical | cut -d " " -f1) ]; then \
                         echo $(docker rm -f medical); \
                         echo "---------------- successfully removed ecom-webservice ----------------"
                      else \
                     echo OK; \
                  fi;);
-            docker container run --restart always --name medical -p 8082:8080 -d medical
+            sudo docker container run --restart always --name medical -p 8082:8080 -d medical
             '''
             }
         }    

@@ -28,11 +28,29 @@ pipeline {
                 '''
             }
         }
+        stage('Tag docker image'){
+            steps {
+                sh 'docker tag medical ashish142/ecmedical:1.0.0'
+            }          
+        }
+        stage('Push docker image'){
+            steps {
+                sh 'sudo docker push ashish142/medical:1.0.0'
+            }          
+        }
         stage('Deploy Stage') {
             steps {
-                echo 'Hello, JDK'
-                sh 'java -version'
+                echo 'Hello, Docker Deployment.'
+                sh '''
+                 (if  [ $(docker ps -a | grep medical | cut -d " " -f1) ]; then \
+                        echo $(docker rm -f medical); \
+                        echo "---------------- successfully removed ecom-webservice ----------------"
+                     else \
+                    echo OK; \
+                 fi;);
+            docker container run --restart always --name medical -p 8082:8081 -d medical
+            '''
             }
-        }
+        }    
     }
 }

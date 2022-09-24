@@ -48,7 +48,7 @@ pipeline {
                      else \
                     echo OK; \
                  fi;);
-            sudo docker container run --restart always --name medical -p 8082:8080 -d medical
+            sudo docker container run --restart always --name medical -p 8082:8088 -d medical
             '''
             }
         }    

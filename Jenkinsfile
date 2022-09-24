@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Tag docker image'){
             steps {
-                sh 'docker tag medical ashish142/ecmedical:1.0.0'
+                sh 'sudo docker tag medical ashish142/ecmedical:1.0.0'
             }          
         }
         stage('Push docker image'){

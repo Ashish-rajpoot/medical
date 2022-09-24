@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+        tools {
+    jdk 'JDK8'
+    maven 'maven3.6.3'
+  }
     triggers{
         pollSCM('* * * * *')
     }
@@ -8,14 +11,12 @@ pipeline {
         stage('Compile Stage') {
             steps {
                 echo 'Hello, Compile'
-                  withMaven(maven :'maven3.6.3')
                 sh 'mvn clean compile'
             }
         }
           stage('Build Stage') {
             steps {
                 echo 'Hello, Build'
-                withMaven(maven :'maven3.6.3')
                 sh 'mvn clean package -DskipTests'
             }
         }

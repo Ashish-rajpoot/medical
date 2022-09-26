@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.ecommerce.entities.Book;
+import com.ecommerce.model.Book;
 
 @Component
 public class BookServices {

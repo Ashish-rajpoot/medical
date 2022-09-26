@@ -1,4 +1,4 @@
-package com.ecommerce.entities;
+package com.ecommerce.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -20,7 +20,7 @@ public class ProductService {
 	return productRepository.findAll();	
 	}
 	public void  addProduct(Product product) { productRepository.save(product);}
-	public void removeProduct(int id) {productRepository.deleteById(id);}
+	public void removeProductById(int id) {productRepository.deleteById(id);}
 	public Optional<Product> getProductById(int id){return productRepository.findById(id);}
 	public List<Product> getAllProductByCategoryId(int id){
 		return productRepository.findAllByCategory_Id(id);

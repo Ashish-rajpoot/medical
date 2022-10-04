@@ -1,43 +1,35 @@
 package com.ecommerce.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Entity
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private int id;
 	
 	private String firstName;
 	
 	private String lastName;
 	
+	@Column(unique = true)
 	private String email;
 
 	private String password;
 	
 	private String role;
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -81,6 +73,16 @@ public class User {
 		this.role = role;
 	}
 
+	public User(int id, String firstName, String lastName, String email, String password, String role) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+	}
+
 	public User(String firstName, String lastName, String email, String password, String role) {
 		super();
 		this.firstName = firstName;
@@ -90,7 +92,8 @@ public class User {
 		this.role = role;
 	}
 
-public User() {
-	// TODO Auto-generated constructor stub
-}	
+	
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
 }

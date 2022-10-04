@@ -4,44 +4,60 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ecommerce.model.User;
 import com.ecommerce.repository.UserRepository;
+import com.ecommerce.services.UserService;
 
 @Controller
+
 public class LoginController {
 
-//	@Autowired
-//	private BCryptPasswordEncoder bCryptPasswordEncoder;
-//	
 	@Autowired
-	private UserRepository userRepository;
+	UserService userService;
 	
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	
 	@GetMapping("/login")
 	public String login() {
 		return "login";
 	}
-	
+
 	@GetMapping("/register")
 	public String register() {
 		return "register";
 	}
+
 	@PostMapping("/register")
-	public String postRegister(@ModelAttribute ("user") User user,HttpServletRequest request) throws ServletException {
-//		String password = user.getPassword();
-		System.out.println(user);
-//		user.setPassword(bCryptPasswordEncoder.encode(password));
-//		List<Role> roles = new ArrayList<>();
-//		roles.add(roleRepository.findById(2).get());
-//		user.setRoles(roles);
-//		userRepository.save(user);
-//		request.login(user.getEmail(), password);
-		return "redirect:/";
+	public String postRegister(@ModelAttribute("user") User user, HttpServletRequest request) throws ServletException {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setRole("ROLE_USER");
+			userRepository.save(user);
+			System.out.println("User Register SuccecssFully");
+			return "redirect:/";
+	}
+	
+	@GetMapping("/index")
+	public String home(Model model) {
+		return "index";
 	}
 
+		@GetMapping("/default")
+		public String defaultAfterLogin(HttpServletRequest request) {
+			if(request.isUserInRole("ROLE_ADMIN")) {
+				return "redirect:/admin/";
+			}
+			return "redirect:/user/";
+		}
 }

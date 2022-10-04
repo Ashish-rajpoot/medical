@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ecommerce.services.CategoryService;
 import com.ecommerce.services.ProductService;
@@ -17,11 +18,7 @@ public class HomeController {
 	
 	@Autowired
 	private ProductService productService;
-	
-	@GetMapping({"/", "/home"})
-	public String home(Model model) {
-		return "index";
-	}
+
 	@GetMapping("/shop")
 	public String shop(Model model) {
 		model.addAttribute("categories",categoryService.getAllCategories());

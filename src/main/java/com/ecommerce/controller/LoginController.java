@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ecommerce.global.GlobalData;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.UserRepository;
 import com.ecommerce.services.UserService;
@@ -31,6 +32,7 @@ public class LoginController {
 	
 	@GetMapping("/login")
 	public String login() {
+		GlobalData.cart.clear();
 		return "login";
 	}
 

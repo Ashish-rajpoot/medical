@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ecommerce.global.GlobalData;
 import com.ecommerce.services.CategoryService;
 import com.ecommerce.services.ProductService;
 
 @Controller
+//@RequestMapping("/user/")
 public class HomeController {
 
 	@Autowired
@@ -21,18 +23,21 @@ public class HomeController {
 
 	@GetMapping("/shop")
 	public String shop(Model model) {
+		model.addAttribute("cartCount",GlobalData.cart.size());
 		model.addAttribute("categories",categoryService.getAllCategories());
 		model.addAttribute("products",productService.getAllProducts());
 		return "shop";
 	}
 	@GetMapping("/shop/category/{id}")
 	public String getProductByCategoryId(Model model, @PathVariable ("id") int id) {
+		model.addAttribute("cartCount",GlobalData.cart.size());
 		model.addAttribute("categories",categoryService.getAllCategories());
 		model.addAttribute("products",productService.getAllProductByCategoryId(id));
 		return "shop";
 	}
 	@GetMapping("/shop/viewproduct/{id}")
 	public String viewProduct(Model model, @PathVariable int id) {
+		model.addAttribute("cartCount",GlobalData.cart.size());
 		model.addAttribute("product",productService.getProductById(id).get());
 		return "viewProduct";
 	}

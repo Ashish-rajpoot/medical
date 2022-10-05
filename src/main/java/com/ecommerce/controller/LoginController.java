@@ -42,10 +42,11 @@ public class LoginController {
 	@PostMapping("/register")
 	public String postRegister(@ModelAttribute("user") User user, HttpServletRequest request) throws ServletException {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setRole("ROLE_USER");
+//		user.setRole("ROLE_USER");
+//		user.setRole("ROLE_ADMIN");
 			userRepository.save(user);
 			System.out.println("User Register SuccecssFully");
-			return "redirect:/";
+			return "redirect:/login";
 	}
 	
 	@GetMapping("/index")

@@ -66,11 +66,20 @@
                 <input type="password" class="form-control form-control-lg" required placeholder="Password" name="password"
                        id="password">
             </div>
-          <!--   <div class="form-group">
+  <!--          <div class="form-group">
                 <label for="role">Role</label>
                 <input type="text" class="form-control form-control-lg" required placeholder="Role" name="role"
                        id="role">
             </div> -->
+             <div class="form-group">
+                    <label for="category">Select Category</label>
+                    <select class="form-control" id="role" name="role">
+                        <option 
+                                th:value="ROLE_USER"> User
+                          <option 
+                                th:value="ROLE_ADMIN"> Admin
+                    </select>
+                </div>
 
             <input type="submit" value="Register" class="btn btn-primary btn-block">
             <span style="margin-top: 10px">Already have an account <a class="linkControl" href="./login.html"

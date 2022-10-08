@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.dto.ProductDTO;
 import com.ecommerce.model.Category;
+import com.ecommerce.model.MyOrder;
 import com.ecommerce.model.Product;
+import com.ecommerce.repository.MyOrderRepository;
+import com.ecommerce.repository.UserRepository;
 import com.ecommerce.services.CategoryService;
 import com.ecommerce.services.ProductService;
 
@@ -33,6 +38,10 @@ public class AdminController {
 	private CategoryService categoryService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private MyOrderRepository myOrderRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	@GetMapping("/")
 	public String adminHome() {
@@ -130,6 +139,27 @@ public class AdminController {
 		model.addAttribute("productDTO",productDTO);
 		return "productsAdd";
 	}
+	@GetMapping("/orders")
+	public String getAllOrders(Model model,Principal principal) {
+		List<MyOrder> myOrder = myOrderRepository.findAll();
+		model.addAttribute("orders",myOrderRepository.findAll());
+		return "orders";
+	}
+	@GetMapping("/orders/delete/{id}")
+	public String getDeleteOrder(@PathVariable int id) {
+		myOrderRepository.deleteById(id);
+		return "redirect:/admin/orders";
+	}
+//	@GetMapping("/orders/update/{id}")
+//	public String getUpdateOrder(@PathVariable int id, Model model) {
+//		Optional<MyOrder> order = myOrderRepository.findById(id);
+//		if(order.isPresent()) {
+//			model.addAttribute("category",order.get());
+//			return "categoriesAdd";
+//		}else {
+//			return "404";
+//		}
+//	}
 }
 
 

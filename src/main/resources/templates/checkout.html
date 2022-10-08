@@ -78,7 +78,7 @@
                                     <!-- First name -->
                                     <div class="md-form md-outline mb-0 mb-lg-4">
                                         <label for="firstName">First name</label>
-                                        <input type="text" id="firstName" required class="form-control mb-0 mb-lg-2">
+                                        <input type="text" th:value="${user.firstName}" name="firstName" id="firstName" required class="form-control mb-0 mb-lg-2">
                                     </div>
 
                                 </div>
@@ -90,7 +90,7 @@
                                     <!-- Last name -->
                                     <div class="md-form md-outline">
                                         <label for="lastName">Last name</label>
-                                        <input type="text" id="lastName" required class="form-control">
+                                        <input type="text" th:value="${user.lastName}" name="lastName" id="lastName" required class="form-control">
                                     </div>
 
                                 </div>
@@ -148,7 +148,7 @@
                             <!-- Email address -->
                             <div class="md-form md-outline mt-2">
                                 <label for="form19">Email address</label>
-                                <input type="email" required id="form19" class="form-control">
+                                <input type="email"  th:value="${user.email}" name="email"required id="form19" class="form-control">
                             </div>
 
                             <!-- Additional information -->
@@ -193,15 +193,28 @@
                                             <p class="mb-0">(including VAT)</p>
                                         </strong>
                                     </div>
-                                    <span><strong>₹<span th:value="${total}" th:text="${total}"></span></strong></span>
+                                    <span><strong>₹<span id="total" th:value="${total}" th:text="${total}"></span></strong></span>
                                 </li>
                             </ul>
 
 
-                            <form action="" method="post" th:action="@{/payNow}">
-                                <button type="submit" class="btn btn-primary btn-block waves-effect waves-light">Pay
+                         <!--    <form action="" method="post" th:action="@{/payNow}">
+                                <button type="submit" onclick="totalCheckout()"class="btn btn-primary btn-block waves-effect waves-light">Pay
                                     Now</button>
-                            </form>
+                            </form> -->
+                       
+                         <!--   <strong>
+                          Confirm Amount
+                                        </strong> -->
+                           <input type="hidden" id="payment_field" th:value="${total}*1">
+                          
+                          </label>
+   <div> 
+                                <button type="submit" onclick="paymentStart()"class="btn btn-primary btn-block waves-effect waves-light mt-2">Pay
+                                    Now</button>
+   </div>
+         
+                           
 
                         </div>
                     </div>
@@ -237,45 +250,29 @@
 
         </section>
         <!--Section: Block Content-->
-
-
     </div>
 
 
+<!--  payment-->
 
-    <!-- <div class="container">
+<!--     <div class="container">
         <input type="text" id="payment_field">
         <div>
             <button type="button" onclick="paymentStart()" class="btn btn-success"> pay</button>
         </div>
     </div> -->
 
-    <!-- Demo End  -->
-    <!-- <script type="text/javascript">
-        function paymentStart() {
-            let amount = $("#payment_field").val();
-            console.log(amount);
-            if (amount == "" || amount == null) {
-                alert("amount is required !!");
-                return;
-            }
-            $.ajax({
-                url: '/user/createOrder',
-                //  data:{amount:amount},
-                data: JSON.stringify({ amount: amount, info: 'order_request' }),
-                contentType: 'application/json',
-                type: 'POST',
-                dataType: 'json',
-                success: function (response) {
-                    console.log(response)
-                },
-                error: function (error) {
-                    console.log(error)
-                    alert("something went wrong")
-                }
-            })
-        };
-    </script> -->
+        <div>
+        </div>
+
+
+    <script th:src="@{/js/script.js}"></script>
+  <script 
+  src = "https://checkout.razorpay.com/v1/checkout.js" >
+
+</script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"

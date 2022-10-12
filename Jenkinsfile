@@ -28,16 +28,16 @@ pipeline {
                 '''
             }
         }
-        stage('Tag docker image'){
-            steps {
-                sh 'sudo docker tag medical ashish142/medical:1.0.0'
-            }          
-        }
-        stage('Push docker image'){
-            steps {
-                sh 'sudo docker push ashish142/medical:1.0.0'
-            }          
-        }
+//         stage('Tag docker image'){
+//             steps {
+//                 sh 'sudo docker tag medical ashish142/medical:1.0.0'
+//             }
+//         }
+//         stage('Push docker image'){
+//             steps {
+//                 sh 'sudo docker push ashish142/medical:1.0.0'
+//             }
+//         }
          stage('Deploy mysql Stage') {
                     steps {
                         echo 'Hello, MySql Deployment.'
@@ -48,7 +48,7 @@ pipeline {
                              else \
                             echo OK; \
                          fi;);
-                    sudo docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=Ashish142@ MYSQL_DATABASE: cartdatabase -d mysql; \
+                    sudo docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=Ashish142@ -d mysql; \
 echo "---------------- successfully removed mysql container ----------------"
                     sudo mysql create database cartdatabase;
                     '''

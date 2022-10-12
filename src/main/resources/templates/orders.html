@@ -33,8 +33,12 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 
         <tr th:each="order, iStat : *{orders}" >
             <th scope="row" th:text="${iStat.index + 1}">1</th>
+<<<<<<< HEAD
             <td><a th:href="@{/admin/orders/{id}(id=${order.id})}" th:text="${order.orderId}"></a></td>
 <!--            <td><a th:href="@{/user/orders/{id}(id=${order.id})}" th:text="${order.orderId}"></a></td>-->
+=======
+            <td><a th:href="@{/user/orders/{id}(id=${order.id})}" th:text="${order.orderId}"></a></td>
+>>>>>>> 0b4646701fc65f0420ed1418ca6f0b5fb3da373d
             <td th:text="${order.paymentId}"></td>
             <td th:text="${order.user.email}"></td>
             

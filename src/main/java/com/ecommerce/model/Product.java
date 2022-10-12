@@ -2,6 +2,7 @@ package com.ecommerce.model;
 
 import java.util.Set;
 
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class Product {
 
 	@ManyToMany(mappedBy = "orderProduct")
 	private Set<Order> Order;
+
 	
 	public Integer getId() {
 		return id;
@@ -61,6 +63,7 @@ public class Product {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -110,11 +113,19 @@ public class Product {
         this.imageName = imageName;
     }
     /*
+<<<<<<< HEAD
      * public Order getoMyOrder() {
      * return oMyOrder;
      * }
      * 
      * public void setoMyOrder(Order oMyOrder) {
+=======
+     * public MyOrder getoMyOrder() {
+     * return oMyOrder;
+     * }
+     * 
+     * public void setoMyOrder(MyOrder oMyOrder) {
+>>>>>>> 0b4646701fc65f0420ed1418ca6f0b5fb3da373d
      * this.oMyOrder = oMyOrder;
      * }
      */

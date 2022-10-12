@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface MyOrderRepository extends JpaRepository<Order,Integer> {
 
+
 	public Order findByOrderId(String orderId);
 	public List<Order> findOrderByUser(String user);
 	//order by orderId
@@ -18,4 +19,5 @@ public interface MyOrderRepository extends JpaRepository<Order,Integer> {
 	public List<Order> findOrderByUserId(int Id);
 
 	public List<Order> findOrderById(int Id);
+
 }

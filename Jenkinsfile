@@ -38,6 +38,22 @@ pipeline {
                 sh 'sudo docker push ashish142/medical:1.0.0'
             }          
         }
+         stage('Deploy mysql Stage') {
+                    steps {
+                        echo 'Hello, MySql Deployment.'
+                        sh '''
+                         (if  [ $( sudo docker ps -a | grep some-mysql | cut -d " " -f1) ]; then \
+                                echo $(sudo docker rm -f some-mysql); \
+                                echo "---------------- successfully removed mysql container ----------------"
+                             else \
+                            echo OK; \
+                         fi;);
+                    sudo docker run --name some-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=Ashish142@ MYSQL_DATABASE: cartdatabase -d mysql; then \
+echo "---------------- successfully removed mysql container ----------------"
+                    sudo mysql create database cartdatabase;
+                    '''
+                    }
+                }
         stage('Deploy Stage') {
             steps {
                 echo 'Hello, Docker Deployment.'

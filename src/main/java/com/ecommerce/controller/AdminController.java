@@ -11,17 +11,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.dto.ProductDTO;
 import com.ecommerce.model.Category;
-import com.ecommerce.model.MyOrder;
+import com.ecommerce.model.Order;
 import com.ecommerce.model.Product;
 import com.ecommerce.repository.MyOrderRepository;
 import com.ecommerce.repository.UserRepository;
@@ -102,7 +97,7 @@ public class AdminController {
 		product.setName(productDTO.getName());
 		product.setCategory(categoryService.getCategoryById(productDTO.getCategoryId()).get());
 		product.setPrice(productDTO.getPrice());
-		product.setWeight(productDTO.getWeight());
+		product.setQuantity(productDTO.getQuantity());
 		product.setDescription(productDTO.getDescription());
 		String imgUUID;
 		if(!file.isEmpty()) {
@@ -131,7 +126,7 @@ public class AdminController {
 		productDTO.setName(product.getName());
 		productDTO.setCategoryId(product.getCategory().getId());
 		productDTO.setPrice(product.getPrice());
-		productDTO.setWeight(product.getWeight());
+		productDTO.setQuantity(product.getQuantity());
 		productDTO.setDescription(product.getDescription());
 		productDTO.setImageName(product.getImageName());
 //		
@@ -141,7 +136,7 @@ public class AdminController {
 	}
 	@GetMapping("/orders")
 	public String getAllOrders(Model model,Principal principal) {
-		List<MyOrder> myOrder = myOrderRepository.findAll();
+		List<Order> order = myOrderRepository.findAll();
 		model.addAttribute("orders",myOrderRepository.findAll());
 		return "orders";
 	}
@@ -152,7 +147,7 @@ public class AdminController {
 	}
 //	@GetMapping("/orders/update/{id}")
 //	public String getUpdateOrder(@PathVariable int id, Model model) {
-//		Optional<MyOrder> order = myOrderRepository.findById(id);
+//		Optional<Order> order = myOrderRepository.findById(id);
 //		if(order.isPresent()) {
 //			model.addAttribute("category",order.get());
 //			return "categoriesAdd";
@@ -160,6 +155,21 @@ public class AdminController {
 //			return "404";
 //		}
 //	}
+
+	@GetMapping("/orders/{id}")
+	@ResponseBody
+	public String getAllOrders(@PathVariable("id") int id, Model model, Principal principal) {
+
+
+		List<Order> orders = myOrderRepository.findOrderById(id);
+		System.out.println(orders.size());
+//	       for (Product orderProducts : products) {
+//	          System.out.println(orderProducts);
+//	       model.addAttribute("products",orderProduct);
+//    }
+//	}
+		return "orders.size()";
+	}
 }
 
 

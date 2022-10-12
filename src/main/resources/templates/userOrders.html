@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-       th:replace="adminHeader::layout(~{::body})">
+       th:replace="userHeader::layout(~{::body})">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -24,8 +24,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
             <th scope="col">Order Id</th>
             <th scope="col">Payment Id</th>
             <th scope="col">Ordered By</th>
-            <th scope="col">Delete</th>
-            <th scope="col">Payment Status</th>
+<!--            <th scope="col">Delete</th>-->
+<!--            <th scope="col">Payment Status</th>-->
        <!--      <th scope="col">Update</th> -->
         </tr>
         </thead>
@@ -33,15 +33,15 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 
         <tr th:each="order, iStat : *{orders}" >
             <th scope="row" th:text="${iStat.index + 1}">1</th>
-            <td><a th:href="@{/admin/orders/{id}(id=${order.id})}" th:text="${order.orderId}"></a></td>
+            <td><a th:href="@{/user/orders/{id}(id=${order.id})}" th:text="${order.orderId}"></a></td>
 <!--            <td><a th:href="@{/user/orders/{id}(id=${order.id})}" th:text="${order.orderId}"></a></td>-->
             <td th:text="${order.paymentId}"></td>
             <td th:text="${order.user.email}"></td>
             
 <!--              <td><img src="" height="100px" width="100px"  th:src="@{${'/productImages/' + order.product.imageName}}"></td> --> 
  
-            <td><a href="" th:href="@{/admin/orders/delete/{id}(id=${order.id})}" class="btn btn-danger">Delete</a></td>
-            <td><a href="" th:text="${order.status}=='paid'?'paid':'pending'" th:attr="class=${order.status}=='paid'?'btn btn-success':'btn btn-warning'" ></a></td>
+<!--            <td><a href="" th:href="@{/admin/orders/delete/{id}(id=${order.id})}" class="btn btn-danger">Delete</a></td>-->
+<!--            <td><a href="" th:text="${order.status}=='paid'?'paid':'pending'" th:attr="class=${order.status}=='paid'?'btn btn-success':'btn btn-warning'" ></a></td>-->
 <!--             <td><a href="" th:if="${order.status}=='paid'" class="btn btn-success">Paid</a></td>
             <td><a href="" th:unless="${order.status}=='paid'" class="btn btn-warning">Payment Pending</a></td>
  -->            <!-- <td><a href="" th:href="@{/admin/product/update/{id}(id=${order.id})}" class="btn btn-warning">Update</a></td> -->

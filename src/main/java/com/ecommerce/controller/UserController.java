@@ -2,93 +2,85 @@ package com.ecommerce.controller;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
-import org.json.JSONObject;
+import ch.qos.logback.core.net.SyslogOutputStream;
+import com.ecommerce.model.Order;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ecommerce.global.GlobalData;
-import com.ecommerce.model.MyOrder;
 import com.ecommerce.model.Product;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.MyOrderRepository;
+import com.ecommerce.repository.ProductRepository;
 import com.ecommerce.repository.UserRepository;
-import com.razorpay.Order;
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
 
 @Controller
 @RequestMapping("/user/")
 public class UserController {
 
-	@Autowired
-	UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
 
-	@Autowired
-	MyOrderRepository myOrderRepository;
+    @Autowired
+    MyOrderRepository myOrderRepository;
 
-	@GetMapping("/")
-	public String index(Model model) {
-		List<User> user = userRepository.findAll();
-		model.addAttribute("user", user);
-		return "home";
-	}
+    @Autowired
+    ProductRepository productRepository;
 
-	@GetMapping("/checkout")
-	public String checkout(Model model, Principal principal) {
-		User user = userRepository.findByEmail(principal.getName());
-		model.addAttribute("user",user);
-		System.out.println("checkout page" + user.getFirstName() );
-		model.addAttribute("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum());
-		return "checkout";
-	}
+    @GetMapping("/")
+    public String index(Model model) {
+        List<User> user = userRepository.findAll();
+        model.addAttribute("user", user);
+        return "home";
+    }
 
-//	@PostMapping("/createOrder")
-//	@ResponseBody
-//	public String createOrder() {
-//		System.out.println("hey order excuted");
-//		return "done";
-//	}
+    @GetMapping("/checkout")
+    public String checkout(Model model, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
+        model.addAttribute("user", user);
+        System.out.println("checkout page" + user.getFirstName());
+        model.addAttribute("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum());
+        return "checkout";
+    }
 
-//	@PostMapping("/createOrder")
-//	@ResponseBody
-//	public String createOrder(@RequestBody Map<String, Object> data, Principal principal) throws RazorpayException {
-//		System.out.println(data);
-//		int amount = Integer.parseInt(data.get("amount").toString());
-//		RazorpayClient client = new RazorpayClient("rzp_test_xD1ZcdIlypoUZd", "5l2J2KxH7IT6rGnePue7zmGs");
-//
-//		JSONObject object = new JSONObject();
-//		object.put("amount", amount * 100);
-//		object.put("currency", "INR");
-//		object.put("receipt", "txn_210427");
-//
-//		Order order = client.orders.create(object);
-//		System.out.println(order);
-//
-//		MyOrder myOrder = new MyOrder();
-//		myOrder.setOrderId(order.get("id"));
-//		myOrder.setAmount(order.get("amount") + "");
-//		myOrder.setPayment(order.get(null));
-//		myOrder.setStatus("created");
-//		myOrder.setUser(this.userRepository.findByEmail(principal.getName()));
-//		myOrder.setReceipt(order.get("receipt"));
-//
-//		this.myOrderRepository.save(myOrder);
-//
-//		return order.toString();
-//	}
-//
-//	@PostMapping("/updateOrder")
-//	public ResponseEntity<?> updateOrder(@RequestBody Map<String, Object> data) {
-//		System.out.println(data);
-//		return ResponseEntity.ok("");
-//	}
+    @GetMapping("/userOrders")
+//	   @ResponseBody
+    public String getAllOrders(Model model, Principal principal) {
+        User user = (userRepository.findByEmail(principal.getName()));
+        System.out.println(user.getId());
+        model.addAttribute("user",userRepository.findByEmail(principal.getName()));
+        model.addAttribute("orders", myOrderRepository.findOrderByUserId(user.getId()));
+        return "userOrders";
+    }
+
+    @GetMapping("/orders/{id}")
+//    @ResponseBody
+    public String getAllOrders(@PathVariable("id") int id, Model model, Principal principal) {
+        List<Order> orders = myOrderRepository.findOrderById(id);
+        System.out.println("order size:" + orders.size());
+        for(Order order:orders){
+            model.addAttribute("products", order.getOrderProduct());
+//            Set<Product> products = order.getOrderProduct();
+//            System.out.println(products.size());
+//            for(Product product : products){
+////                System.out.println(product.getId());
+//                System.out.println(  product.getName());
+////                Set<Product> orderProducts = productRepository.findAllById(product.getId());
+////                System.out.println(orderProducts.size());
+////                for(Product orderProduct : orderProducts){
+////                    System.out.println(orderProduct.getId());
+////                }
+//                }
+        }
+        return "orderProducts";
+    }
+
 }

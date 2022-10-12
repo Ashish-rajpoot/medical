@@ -1,10 +1,10 @@
 package com.ecommerce.controller;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Set;
 
+import com.ecommerce.model.Order;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ecommerce.global.GlobalData;
-import com.ecommerce.model.MyOrder;
 import com.ecommerce.model.Product;
 import com.ecommerce.repository.MyOrderRepository;
 import com.ecommerce.repository.UserRepository;
 import com.ecommerce.services.CategoryService;
 import com.ecommerce.services.ProductService;
-import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 
@@ -60,7 +58,7 @@ public class HomeController {
 	}
 
 	@GetMapping("/shop/viewproduct/{id}")
-	public String viewProduct(Model model, @PathVariable int id) {
+	public String viewProduct(Model model, @PathVariable ("id") int id) {
 		model.addAttribute("cartCount", GlobalData.cart.size());
 		model.addAttribute("product", productService.getProductById(id).get());
 		return "viewProduct";
@@ -78,17 +76,17 @@ public class HomeController {
 		object.put("currency", "INR");
 		object.put("receipt", "txn_210427");
 
-		Order order = client.orders.create(object);
+		com.razorpay.Order order = client.orders.create(object);
 		System.out.println(order);
 		
-		MyOrder myOrder = new MyOrder();
-		List<Product> cart = GlobalData.cart;
+		Order myOrder = new Order();
+		Set<Product> cart = GlobalData.cart;
 		
-		for (Product product : cart) {
-			System.out.println(product.getId());
-			myOrder.setProduct(product);
-		}
-		
+//		for (Product product : cart) {
+//			System.out.println(product.getId());
+//			myOrder.setProduct(product);
+//		}
+		myOrder.setOrderProduct(cart);
 		myOrder.setOrderId(order.get("id"));
 		myOrder.setAmount( order.get("amount")+"");
 		myOrder.setPaymentId(order.get(null));
@@ -105,12 +103,13 @@ public class HomeController {
 	
 	@PostMapping("/updateOrder")
 	public ResponseEntity<?> updateOrder(@RequestBody Map<String, Object> data) {
-		MyOrder myOrder = this.myOrderRepository.findByOrderId(data.get("order_id").toString());
-		myOrder.setPaymentId(data.get("payment_id").toString());
-		myOrder.setStatus(data.get("status").toString());
+		Order order = this.myOrderRepository.findByOrderId(data.get("order_id").toString());
+		order.setPaymentId(data.get("payment_id").toString());
+		order.setStatus(data.get("status").toString());
 
-		this.myOrderRepository.save(myOrder);
+		this.myOrderRepository.save(order);
 		System.out.println(data);
+		GlobalData.cart.clear();
 		return ResponseEntity.ok("success");
 	}
 }

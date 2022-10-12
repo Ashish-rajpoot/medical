@@ -21,11 +21,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 <h1>Your order Products</h1>
 <div class="container-fluid">
 
-<<<<<<< HEAD
 <!--    <a th:href="@{/admin/products/add}" style="margin: 20px 0" class="btn btn-primary">Add Product</a>-->
-=======
-    <a th:href="@{/admin/products/add}" style="margin: 20px 0" class="btn btn-primary">Add Product</a>
->>>>>>> 0b4646701fc65f0420ed1418ca6f0b5fb3da373d
+
     <table class="table">
         <thead class="thead-light">
         <tr>
@@ -33,13 +30,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
             <th scope="col">Product Name</th>
             <th scope="col">Category</th>
             <th scope="col">Preview</th>
-<<<<<<< HEAD
 <!--            <th scope="col">Delete</th>-->
 <!--            <th scope="col">Update</th>-->
-=======
-            <th scope="col">Delete</th>
-            <th scope="col">Update</th>
->>>>>>> 0b4646701fc65f0420ed1418ca6f0b5fb3da373d
+
         </tr>
         </thead>
         <tbody>
@@ -50,13 +43,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
             <td th:text="${product.category.name}">Larry</td>
             <td><img src="" height="100px" width="100px"  th:src="@{${'/productImages/' + product.imageName}}"></td>
 
-<<<<<<< HEAD
 <!--            <td><a href="" th:href="@{/admin/product/delete/{id}(id=${product.id})}" class="btn btn-danger">Delete</a></td>-->
 <!--            <td><a href="" th:href="@{/admin/product/update/{id}(id=${product.id})}" class="btn btn-warning">Update</a></td>-->
-=======
-            <td><a href="" th:href="@{/admin/product/delete/{id}(id=${product.id})}" class="btn btn-danger">Delete</a></td>
-            <td><a href="" th:href="@{/admin/product/update/{id}(id=${product.id})}" class="btn btn-warning">Update</a></td>
->>>>>>> 0b4646701fc65f0420ed1418ca6f0b5fb3da373d
+
 
         </tr>
         </tbody>

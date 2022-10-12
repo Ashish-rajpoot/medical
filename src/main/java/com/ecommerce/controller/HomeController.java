@@ -60,7 +60,7 @@ public class HomeController {
 	}
 
 	@GetMapping("/shop/viewproduct/{id}")
-	public String viewProduct(Model model, @PathVariable int id) {
+	public String viewProduct(Model model, @PathVariable ("id") int id) {
 		model.addAttribute("cartCount", GlobalData.cart.size());
 		model.addAttribute("product", productService.getProductById(id).get());
 		return "viewProduct";
@@ -84,11 +84,11 @@ public class HomeController {
 		MyOrder myOrder = new MyOrder();
 		List<Product> cart = GlobalData.cart;
 		
-		for (Product product : cart) {
-			System.out.println(product.getId());
-			myOrder.setProduct(product);
-		}
-		
+//		for (Product product : cart) {
+//			System.out.println(product.getId());
+//			myOrder.setProduct(product);
+//		}
+		myOrder.setProduct(cart);
 		myOrder.setOrderId(order.get("id"));
 		myOrder.setAmount( order.get("amount")+"");
 		myOrder.setPaymentId(order.get(null));
@@ -111,6 +111,7 @@ public class HomeController {
 
 		this.myOrderRepository.save(myOrder);
 		System.out.println(data);
+		GlobalData.cart.clear();
 		return ResponseEntity.ok("success");
 	}
 }

@@ -1,5 +1,7 @@
 package com.ecommerce.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,10 +23,13 @@ public class Product {
 	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
 	private Category category;
 	private Double price;
-	private Double weight;
+	private int quantity;
 	private String description;
 	private String imageName;
 
+	@ManyToMany
+	private List<MyOrder> MyOrder;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -57,13 +62,7 @@ public class Product {
 		this.price = price;
 	}
 
-	public Double getWeight() {
-		return weight;
-	}
-
-	public void setWeight(Double weight) {
-		this.weight = weight;
-	}
+	
 
 	public String getDescription() {
 		return description;
@@ -83,30 +82,50 @@ public class Product {
 	}
 
 	
-	public Product(Integer id, String name, Category category, Double price, Double weight, String description,
-			String imageName) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.category = category;
-		this.price = price;
-		this.weight = weight;
-		this.description = description;
-		this.imageName = imageName;
-	}
 
-	public Product(String name, Category category, Double price, Double weight, String description, String imageName) {
-		super();
-		this.name = name;
-		this.category = category;
-		this.price = price;
-		this.weight = weight;
-		this.description = description;
-		this.imageName = imageName;
-	}
+	public int getQuantity() {
+        return quantity;
+    }
 
-	public Product() {
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Product() {
 		// TODO Auto-generated constructor stub
 	}
 
+    public Product(Integer id, String name, Category category, Double price, int quantity, String description,
+            String imageName) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.imageName = imageName;
+    }
+
+    public Product(String name, Category category, Double price, int quantity, String description, String imageName) {
+        super();
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.imageName = imageName;
+    }
+    /*
+     * public MyOrder getoMyOrder() {
+     * return oMyOrder;
+     * }
+     * 
+     * public void setoMyOrder(MyOrder oMyOrder) {
+     * this.oMyOrder = oMyOrder;
+     * }
+     */
+
+    
+    
 }

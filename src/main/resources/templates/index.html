@@ -42,9 +42,9 @@
                     <li class="nav-item active">
                         <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" href="#">login</a>
                     </li>
-                    <li class="nav-item active">
+                <!--     <li class="nav-item active">
                         <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" href="#">logout</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/cart}" href="#">cart</a>
                     </li>
@@ -59,89 +59,6 @@
 
     <h1>Vikas Loves Nidhi</h1>
 
-    <p>They Fight a lot.
-
-    <h1>Vijay</h1>
-
-    <!-- Demo Start  -->
-
-    <div class="container">
-        <input type="text" id="payment_field">
-        <div>
-            <button type="button" onclick="paymentStart()" class="btn btn-success"> pay</button>
-        </div>
-    </div>
-
-
-
-    <!-- Demo End  -->
-
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script type="text/javascript">
-        function paymentStart() {
-            let amount = $("#payment_field").val();
-            console.log(amount);
-            if (amount == "" || amount == null) {
-                alert("amount is required !!");
-                return;
-            }
-
-
-            $.ajax({
-                url: '/createOrder',
-                //  data:{amount:amount},
-                data: JSON.stringify({ amount: amount, info: 'order_request' }),
-                contentType: 'application/json',
-                type: 'POST',
-                dataType: 'json',
-                success: function (response) {
-                    console.log(response)
-                    if (response.status == "created") {
-                        let options = {
-                            key: 'rzp_test_xD1ZcdIlypoUZd',
-                            amount: response.amount,
-                            currency: 'INR',
-                            name: 'Medical Payment',
-                            description: 'Donation',
-                            order_id: response.id,
-                            handler: function (response) {
-                                console.log(response.razorpay_payment_id)
-                                console.log(response.razorpay_order_id)
-                                console.log(response.log(razorpay_signature))
-                                console.log("payment successfull")
-                                alert("congrates !! Payment successfull")
-                            },
-                            prefill: {
-                                name: "",
-                                contact: "",
-                                email: ""
-                            },
-                            notes: {
-                                address: "Checkout you med..."
-                            }
-                        };
-                        let rzp = new Razorpay(options);
-                        rzp.on('payment.failed', function (response) {
-                            console.log(response.error.code);
-                            console.log(response.error.description);
-                            console.log(response.error.source);
-                            console.log(response.error.step);
-                            console.log(response.error.reason);
-                            console.log(response.error.metadata.order_id);
-                            console.log(response.error.metadata.payment_id);
-                            alert("Oops payment failed...")
-                        });
-
-                        rzp.open();
-                    }
-                },
-                error: function (error) {
-                    console.log(error)
-                    alert("something went wrong")
-                }
-            })
-        }
-    </script>
 
 
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"

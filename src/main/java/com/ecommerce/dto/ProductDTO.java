@@ -11,7 +11,7 @@ public class ProductDTO {
 	private String name;
 	private int categoryId;
 	private Double price;
-	private Double weight;
+	private int quantity;
 	private String description;
 	private String imageName;
 	public Integer getId() {
@@ -38,13 +38,14 @@ public class ProductDTO {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public Double getWeight() {
-		return weight;
-	}
-	public void setWeight(Double weight) {
-		this.weight = weight;
-	}
-	public String getDescription() {
+
+	public int getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
@@ -56,28 +57,30 @@ public class ProductDTO {
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
 	}
-	public ProductDTO(Integer id, String name, int categoryId, Double price, Double weight, String description,
-			String imageName) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.categoryId = categoryId;
-		this.price = price;
-		this.weight = weight;
-		this.description = description;
-		this.imageName = imageName;
-	}
-	public ProductDTO(String name, int categoryId, Double price, Double weight, String description, String imageName) {
-		super();
-		this.name = name;
-		this.categoryId = categoryId;
-		this.price = price;
-		this.weight = weight;
-		this.description = description;
-		this.imageName = imageName;
-	}
 	
 	public ProductDTO() {
 		// TODO Auto-generated constructor stub
 	}
+    public ProductDTO(Integer id, String name, int categoryId, Double price, int quantity, String description,
+            String imageName) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.categoryId = categoryId;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.imageName = imageName;
+    }
+    public ProductDTO(String name, int categoryId, Double price, int quantity, String description, String imageName) {
+        super();
+        this.name = name;
+        this.categoryId = categoryId;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.imageName = imageName;
+    }
+	
+	
 }

@@ -30,7 +30,7 @@ public class CartController {
 		return "cart";
 	}
 	@GetMapping("/cart/removeItem/{index}")
-	public String cartRemoveItem(@PathVariable int id) {
+	public String cartRemoveItem(@PathVariable("index") int id) {
 		GlobalData.cart.remove(id);
 		return "redirect:/cart";
 	}

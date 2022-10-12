@@ -102,7 +102,7 @@ public class AdminController {
 		product.setName(productDTO.getName());
 		product.setCategory(categoryService.getCategoryById(productDTO.getCategoryId()).get());
 		product.setPrice(productDTO.getPrice());
-		product.setWeight(productDTO.getWeight());
+		product.setQuantity(productDTO.getQuantity());
 		product.setDescription(productDTO.getDescription());
 		String imgUUID;
 		if(!file.isEmpty()) {
@@ -131,7 +131,7 @@ public class AdminController {
 		productDTO.setName(product.getName());
 		productDTO.setCategoryId(product.getCategory().getId());
 		productDTO.setPrice(product.getPrice());
-		productDTO.setWeight(product.getWeight());
+		productDTO.setQuantity(product.getQuantity());
 		productDTO.setDescription(product.getDescription());
 		productDTO.setImageName(product.getImageName());
 //		

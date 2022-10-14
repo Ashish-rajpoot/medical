@@ -22,7 +22,6 @@ public class Order {
 	private String status;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "user_id")
 	private User user;
 
 

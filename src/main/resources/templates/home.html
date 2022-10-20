@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-       th:replace="userHeader::layout(~{::body})">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -15,7 +14,7 @@
     
 </head>
 <body>
-
+<div th:replace="fragments::userHeader"></div>
 <h1>Home Page</h1>
 <!-- Demo Start  -->
 

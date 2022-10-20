@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-       th:replace="adminHeader::layout(~{::body})">
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+       <!-- th:replace="adminHeader::layout(~{::body})"> -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -14,7 +14,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
     <title>Document</title>
 </head>
 <body>
-
+<div th:replace="fragments::adminHeader"></div>
 <div class="jumbotron text-center">
     <h1 class="display-4">Welcome back, Admin</h1>
     <p>Easily manage your data from this admin <mark>CMS</mark></p>
@@ -45,8 +45,18 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
             <div class="card" style="background-color:white;">
                 <div class="card-body">
                     <h4 class="card-title">Orders</h4>
-                    <p class="card-text">Manage all the products here.</p>
+                    <p class="card-text">Manage all the orders here.</p>
                     <a href="#" th:href="@{/admin/orders}" class="card-link btn btn-primary">Manage</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 pt-3" >
+            <div class="card" style="background-color:white;">
+                <div class="card-body">
+                    <h4 class="card-title">Users</h4>
+                    <p class="card-text">Manage all the Users here.</p>
+                    <a href="#" th:href="@{/admin/users}" class="card-link btn btn-primary">Manage</a>
 
                 </div>
             </div>

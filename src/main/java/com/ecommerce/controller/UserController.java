@@ -4,14 +4,20 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import ch.qos.logback.core.net.SyslogOutputStream;
 import com.ecommerce.model.Order;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,9 +40,12 @@ public class UserController {
 
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/")
     public String index(Model model) {
+        model.addAttribute("cartCount", GlobalData.cart.size());
         List<User> user = userRepository.findAll();
         model.addAttribute("user", user);
         return "home";
@@ -44,9 +53,9 @@ public class UserController {
 
     @GetMapping("/checkout")
     public String checkout(Model model, Principal principal) {
+        model.addAttribute("cartCount", GlobalData.cart.size());
         User user = userRepository.findByEmail(principal.getName());
         model.addAttribute("user", user);
-        System.out.println("checkout page" + user.getFirstName());
         model.addAttribute("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum());
         return "checkout";
     }
@@ -55,7 +64,6 @@ public class UserController {
 //	   @ResponseBody
     public String getAllOrders(Model model, Principal principal) {
         User user = (userRepository.findByEmail(principal.getName()));
-        System.out.println(user.getId());
         model.addAttribute("user",userRepository.findByEmail(principal.getName()));
         model.addAttribute("orders", myOrderRepository.findOrderByUserId(user.getId()));
         return "userOrders";
@@ -64,23 +72,29 @@ public class UserController {
     @GetMapping("/orders/{id}")
 //    @ResponseBody
     public String getAllOrders(@PathVariable("id") int id, Model model, Principal principal) {
+        model.addAttribute("cartCount", GlobalData.cart.size());
         List<Order> orders = myOrderRepository.findOrderById(id);
-        System.out.println("order size:" + orders.size());
         for(Order order:orders){
             model.addAttribute("products", order.getOrderProduct());
-//            Set<Product> products = order.getOrderProduct();
-//            System.out.println(products.size());
-//            for(Product product : products){
-////                System.out.println(product.getId());
-//                System.out.println(  product.getName());
-////                Set<Product> orderProducts = productRepository.findAllById(product.getId());
-////                System.out.println(orderProducts.size());
-////                for(Product orderProduct : orderProducts){
-////                    System.out.println(orderProduct.getId());
-////                }
-//                }
         }
         return "orderProducts";
     }
 
+    @GetMapping("/profile")
+    public String getUpdateProfile(Model model,Principal principal,HttpSession session) {
+        model.addAttribute("cartCount", GlobalData.cart.size());
+        User user = userRepository.findByEmail(principal.getName());
+            model.addAttribute("user",user);
+            session.setAttribute("user", "user");
+            System.out.println(user.getRole());
+            
+            return "profile";
+    }
+  
+    @PostMapping("/profile")
+    public String postUpdateProfile(@ModelAttribute("user") User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return "redirect:/user/profile";
+    }
 }

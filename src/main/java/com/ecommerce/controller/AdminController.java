@@ -8,16 +8,22 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ecommerce.dto.ProductDTO;
+import com.ecommerce.global.GlobalData;
 import com.ecommerce.model.Category;
 import com.ecommerce.model.Order;
 import com.ecommerce.model.Product;
+import com.ecommerce.model.User;
 import com.ecommerce.repository.MyOrderRepository;
 import com.ecommerce.repository.UserRepository;
 import com.ecommerce.services.CategoryService;
@@ -37,9 +43,12 @@ public class AdminController {
 	private MyOrderRepository myOrderRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@GetMapping("/")
-	public String adminHome() {
+	public String adminHome(Model model) {
+	    model.addAttribute("cartCount", GlobalData.cart.size());
 		return "adminHome";
 		
 	}
@@ -145,31 +154,66 @@ public class AdminController {
 		myOrderRepository.deleteById(id);
 		return "redirect:/admin/orders";
 	}
-//	@GetMapping("/orders/update/{id}")
-//	public String getUpdateOrder(@PathVariable int id, Model model) {
-//		Optional<Order> order = myOrderRepository.findById(id);
-//		if(order.isPresent()) {
-//			model.addAttribute("category",order.get());
-//			return "categoriesAdd";
-//		}else {
-//			return "404";
-//		}
-//	}
 
 	@GetMapping("/orders/{id}")
 	@ResponseBody
 	public String getAllOrders(@PathVariable("id") int id, Model model, Principal principal) {
-
-
 		List<Order> orders = myOrderRepository.findOrderById(id);
 		System.out.println(orders.size());
-//	       for (Product orderProducts : products) {
-//	          System.out.println(orderProducts);
-//	       model.addAttribute("products",orderProduct);
-//    }
-//	}
 		return "orders.size()";
 	}
+	
+	
+	
+	
+	
+	
+	// User Section
+	
+	   @GetMapping("/users")
+	    public String getUsers(Model model) {
+	        model.addAttribute("users",userRepository.findAll());
+	        return "users";
+	    }
+	    @GetMapping("/user/delete/{id}")
+	    public String getDeleteUser(@PathVariable int id) {
+	        userRepository.deleteById(id);
+	        return "redirect:/admin/users";
+	    }
+	    @GetMapping("/user/update/{id}")
+	    public String getUpdateUser(@PathVariable int id, Model model) {
+	        Optional<User> user = userRepository.findById(id);
+	        if(user.isPresent()) {
+	            model.addAttribute("user",user.get());
+	            return "updateUser";
+	        }else {
+	            return "404";
+	        }
+	    }
+	    
+	    @PostMapping("/user/update")
+	    public String postUpdateUser(@ModelAttribute("user") User user) {
+	        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+	            userRepository.save(user);
+	            return "redirect:/admin/users";
+	    }
+	    
+	    @GetMapping("/profile")
+      public String getUpdateProfile(Model model,Principal principal,HttpSession session) {
+          User user = userRepository.findByEmail(principal.getName());
+              model.addAttribute("user",user);
+              session.setAttribute("admin", "admin");
+              System.out.println(user.getRole());
+              
+              return "profile";
+      }
+    
+      @PostMapping("/profile")
+      public String postUpdateProfile(HttpServletRequest request , @ModelAttribute("user") User user) {
+          user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+          userRepository.save(user);
+          return "redirect:/admin/profile";
+      }
 }
 
 

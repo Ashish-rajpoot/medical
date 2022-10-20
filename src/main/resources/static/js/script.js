@@ -92,3 +92,13 @@ function updatePaymentOnServer(payment_id, order_id, status) {
 		}
 	});
 };
+
+
+window.onload= ()=>{
+	var payBtn = document.getElementById("payment_field"); 
+	var total =payBtn.value;
+	console.log(total);
+	if(total<=0){
+		document.getElementById("pay_btn").disabled=true
+	}
+}

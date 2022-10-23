@@ -26,4 +26,7 @@ public class ProductService {
 	public Set<Product> getAllProductByCategoryId(int id){
 		return productRepository.findAllByCategory_Id(id);
 	}
+	public Set<Product> getProductByKeyword(String keyword){
+	    return productRepository.findAllByKey(keyword);
+	}
 }

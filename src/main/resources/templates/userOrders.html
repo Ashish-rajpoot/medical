@@ -24,9 +24,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
             <th scope="col">Order Id</th>
             <th scope="col">Payment Id</th>
             <th scope="col">Ordered By</th>
-<!--            <th scope="col">Delete</th>-->
-<!--            <th scope="col">Payment Status</th>-->
-       <!--      <th scope="col">Update</th> -->
+            <th scope="col" class="text-center">Items Quantity</th>
+
         </tr>
         </thead>
         <tbody>
@@ -36,12 +35,14 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
             <td><a th:href="@{/user/orders/{id}(id=${order.id})}" th:text="${order.orderId}"></a></td>
             <td th:text="${order.paymentId}"></td>
             <td th:text="${order.user.email}"></td>
+             <td class="text-center" th:text="${order.getOrderProduct().size()}">Larry</td>
             
 
         </tr>
         
 
         </tbody>
+        
     </table>
 </div>
 

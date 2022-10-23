@@ -16,7 +16,7 @@ function paymentStart() {
 		contentType: 'application/json',
 		type: 'POST',
 		dataType: 'json',
-		success: function (response) {
+		success: function(response) {
 			console.log(response)
 			if (response.status == "created") {
 				let options = {
@@ -26,7 +26,7 @@ function paymentStart() {
 					name: 'Medical Payment',
 					description: 'Donation',
 					order_id: response.id,
-					handler: function (response) {
+					handler: function(response) {
 						console.log(response.razorpay_payment_id)
 						console.log(response.razorpay_order_id)
 						console.log(response.razorpay_signature)
@@ -47,7 +47,7 @@ function paymentStart() {
 					}
 				};
 				let rzp = new Razorpay(options);
-				rzp.on('payment.failed', function (response) {
+				rzp.on('payment.failed', function(response) {
 					console.log(response.error.code);
 					console.log(response.error.description);
 					console.log(response.error.source);
@@ -61,7 +61,7 @@ function paymentStart() {
 				rzp.open();
 			}
 		},
-		error: function (error) {
+		error: function(error) {
 			console.log(error)
 			alert("something went wrong")
 		}
@@ -81,11 +81,11 @@ function updatePaymentOnServer(payment_id, order_id, status) {
 		contentType: 'application/json',
 		type: 'POST',
 		dataType: 'json',
-		success: function (response) {
+		success: function(response) {
 			swal("good job", "congrates !! payment success,", "success");
 		},
 
-		error: function (error) {
+		error: function(error) {
 			swal("Paid", "congrates !! payment success,", "success");
 			// swal("Failed", "congrates !! payment success, might be Stuck some where", "success");
 
@@ -94,11 +94,19 @@ function updatePaymentOnServer(payment_id, order_id, status) {
 };
 
 
-window.onload= ()=>{
-	var payBtn = document.getElementById("payment_field"); 
-	var total =payBtn.value;
+window.onload = () => {
+	var payBtn = document.getElementById("payment_field");
+	var total = payBtn.value;
 	console.log(total);
-	if(total<=0){
-		document.getElementById("pay_btn").disabled=true
+	if (total <= 0) {
+		document.getElementById("pay_btn").disabled = true
 	}
-}
+};
+function checkAmount() {
+	var cartCheckoutBtn = document.getElementById("cartCheckout");
+	var cartCheckoutAmount = document.getElementById("cartCheckoutAmount").value;
+	console.log(total);
+	if (cartCheckoutAmount <= 0) {
+		cartCheckoutBtn.disabled = true
+	}
+};

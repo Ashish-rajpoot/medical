@@ -1,6 +1,7 @@
 package com.ecommerce.controller;
 
 import java.security.Principal;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import com.ecommerce.model.Order;
+
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,10 +47,12 @@ public class UserController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, Principal principal) {
         model.addAttribute("cartCount", GlobalData.cart.size());
         List<User> user = userRepository.findAll();
         model.addAttribute("user", user);
+        model.addAttribute("loginUser",userRepository.findByEmail(principal.getName()));
+        System.out.println();
         return "home";
     }
 
@@ -75,6 +80,7 @@ public class UserController {
         model.addAttribute("cartCount", GlobalData.cart.size());
         List<Order> orders = myOrderRepository.findOrderById(id);
         for(Order order:orders){
+            model.addAttribute("total", order.getOrderProduct().stream().mapToDouble(Product::getPrice).sum());
             model.addAttribute("products", order.getOrderProduct());
         }
         return "orderProducts";

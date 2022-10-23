@@ -1,6 +1,8 @@
 package com.ecommerce.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -32,7 +34,7 @@ public class Order {
 			joinColumns = @JoinColumn(name = "order_id"),
 			inverseJoinColumns = @JoinColumn(name = "product_id")
 	)
-	private Set<Product> orderProduct = new HashSet<>();
+	private List<Product> orderProduct = new ArrayList<>();
 	
 	private String paymentId;
 
@@ -96,11 +98,15 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Set<Product> getOrderProduct() {
-		return orderProduct;
-	}
+    public List<Product> getOrderProduct() {
+        return orderProduct;
+    }
 
-	public void setOrderProduct(Set<Product> orderProduct) {
-		this.orderProduct = orderProduct;
-	}
+    public void setOrderProduct(List<Product> orderProduct) {
+        this.orderProduct = orderProduct;
+    }
+
+ 
+
+
 }

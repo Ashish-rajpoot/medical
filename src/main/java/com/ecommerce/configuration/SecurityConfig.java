@@ -10,59 +10,65 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Bean
-	public UserDetailsService getUserDetailsService() {
-		return new UserDetailsServiceImp();
-	}
-	
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder(); 
-	}
-	
-	@Bean
-	public DaoAuthenticationProvider daoAuthenticationProvider() {
-		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-		
-		daoAuthenticationProvider.setUserDetailsService(getUserDetailsService());
-		daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
-		
-		return daoAuthenticationProvider;
-	}
-	
-	
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(daoAuthenticationProvider());
-	}
+    @Bean
+    public UserDetailsService getUserDetailsService() {
+        return new UserDetailsServiceImp();
+    }
 
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+        daoAuthenticationProvider.setUserDetailsService(getUserDetailsService());
+        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
 
+        return daoAuthenticationProvider;
+    }
 
-		http 
-				.authorizeHttpRequests()
-				.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/user/**").hasRole("USER")
-				.antMatchers("/**").permitAll()
-				.and()
-				.formLogin()
-				.loginPage("/login")
-				.loginProcessingUrl("/login")
-				.usernameParameter("email")
-				.defaultSuccessUrl("/default")
-				.and()
-				.csrf()
-				.disable();
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http
+                .authorizeHttpRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/**").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .usernameParameter("email")
+                .defaultSuccessUrl("/default")
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .and()
+                .exceptionHandling()
+                .and()
+                .csrf()
+                .disable();
+    }
 
 //	@Override
 //	public void configure(WebSecurity web) throws Exception {
@@ -70,37 +76,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //	}
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 //	@Autowired
 //	GoogleOAuth2SuccessHandler googleOAuth2SuccessHandler;
-	
+
 //	@Autowired
 //	UserDetailService customUserDetailService;
 //	

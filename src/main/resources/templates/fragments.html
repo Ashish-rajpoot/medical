@@ -13,12 +13,19 @@
 	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+	
+	<style type="text/css">
+	.active-purple-4:focus{
+  border: 1px solid #ce93d8;
+  box-shadow: 0 0 0 1px #ce93d8;
+}
+	</style>
 
 </head>
 <body>
 	<div th:fragment="userHeader">
 
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#"> <img
 					th:src="@{/images/medical.png}" src="../static/images/logo.png"
@@ -34,6 +41,11 @@
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav mr-auto"></ul>
 					<ul class="navbar-nav">
+					
+						<li class="nav-item active"><a class="nav-link"
+						sec:authorize="isAuthenticated()"
+						th:href="@{/user/profile}" href="#">
+</a></li>
 						<li class="nav-item active"><a class="nav-link"
 							th:href="@{/}" href="#">home</a></li>
 						<li class="nav-item active"><a class="nav-link"
@@ -67,10 +79,11 @@
 				</div>
 			</div>
 		</nav>
+		<br /> <br /> <br />
 	</div>
 
 	<div th:fragment="adminHeader">
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#"> <!--   <img th:src="@{/images/logo.png}"  src="../static/images/logo.png" width="auto" height="40" class="d-inline-block align-top" alt=""/> -->
 					<img th:src="@{/images/medical.png}"
@@ -116,8 +129,18 @@
 				</div>
 			</div>
 		</nav>
+		<br /> <br /> <br />
 	</div>
 
+
+<div th:fragment="searchProduct">
+<form th:action="@{/search}">
+<div class="active-purple-3 active-purple-4 mb-4">
+  <input class="form-control" name="keyword" type="text" placeholder="Search" aria-label="Search" required="required">
+</div>
+
+</form>
+</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.1.min.js"
 		integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="

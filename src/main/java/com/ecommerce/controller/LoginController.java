@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ecommerce.global.GlobalData;
 import com.ecommerce.model.User;
@@ -37,12 +39,12 @@ public class LoginController {
 
 	
 	@GetMapping("/login")
-	public String login(Model model) {
+	public String login(Model model, HttpServletRequest request) {
 //		GlobalData.cart.clear();
 	    model.addAttribute("cartCount", GlobalData.cart.size());
+	    
 		return "login";
 	}
-
 	@GetMapping("/register")
 	public String register(Model model) {
 	    model.addAttribute("cartCount", GlobalData.cart.size());
@@ -50,13 +52,19 @@ public class LoginController {
 	}
 
 	@PostMapping("/register")
-	public String postRegister(@ModelAttribute("user") User user, HttpServletRequest request) throws ServletException {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+	public String postRegister(HttpSession session,@ModelAttribute("user") User user, HttpServletRequest request) throws ServletException {
+		try {
+            
+	    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 //		user.setRole("ROLE_USER");
 //		user.setRole("ROLE_ADMIN");
 			userRepository.save(user);
-			System.out.println("User Register SuccecssFully");
+			session.setAttribute("successMsg", "You have successfully Registerd...");
 			return "redirect:/login";
+		} catch (Exception e) {
+		    session.setAttribute("errorMsg", "something went wrong...");
+		    return "register";
+		}
 	}
 	
 	@GetMapping("/index")

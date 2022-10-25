@@ -2,8 +2,16 @@
 function paymentStart() {
 	let amount = $("#payment_field").val();
 	console.log(amount);
-	if (amount == "" || amount == null) {
-		alert("amount is required !!");
+	if (amount == "" || amount == null || amount <= 0) {
+		/*alert("No item in the cart...");*/
+		swal({
+			title: "Cart Empty",
+			text: "Please buy someThing...",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+			
 		return;
 	}
 
@@ -83,20 +91,27 @@ function updatePaymentOnServer(payment_id, order_id, status) {
 		dataType: 'json',
 		success: function(response) {
 			swal("good job", "congrates !! payment success,", "success");
+			window.location = '/user/userOrders'
 		},
 
 		error: function(error) {
 			swal("Paid", "congrates !! payment success,", "success");
 			// swal("Failed", "congrates !! payment success, might be Stuck some where", "success");
-
+			setInterval(() => {
+				swal("Hold Tight You are Landing to the Orders!!!");
+			}, 3000)
+			setInterval(() => {
+				window.location = '/user/userOrders'
+			}, 6000)
 		}
 	});
+
 };
 
 
 window.onload = () => {
 	var payBtn = document.getElementById("payment_field");
-	var total = payBtn.value;
+	var total = payBtn.val();
 	console.log(total);
 	if (total <= 0) {
 		document.getElementById("pay_btn").disabled = true

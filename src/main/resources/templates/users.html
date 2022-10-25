@@ -15,7 +15,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <body>
 <div th:replace="fragments::adminHeader"></div>
 <div class="container">
-
+<div th:replace="fragments::messageHandler"></div>
 <h1 class="text-center">Users</h1> <hr>
     <!-- <a th:href="@{/admin/users/add}" style="margin: 20px 0; align-items: center;" class="btn btn-primary">Add Category</a> -->
     <table class="table mt-5">
@@ -46,5 +46,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
         </tbody>
     </table>
 </div>
+<div  th:replace="fragments::footer"></div>
 </body>
 </html>

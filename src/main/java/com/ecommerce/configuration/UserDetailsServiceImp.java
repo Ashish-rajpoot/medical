@@ -17,16 +17,18 @@ public class UserDetailsServiceImp implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
 //		User user = userRepository.findByEmail("test@gmail.com");
 		User user = userRepository.findByEmail(email);
+		
 		System.out.println(email);
 
 		if(user!=null) {
 //			System.out.println(user);
 			return new CustomUserDetails(user);
 		}
+		
 		throw new UsernameNotFoundException("User not Found");
+		
 	}
 
 }

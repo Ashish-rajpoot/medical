@@ -71,6 +71,7 @@ public class UserController {
         User user = (userRepository.findByEmail(principal.getName()));
         model.addAttribute("user",userRepository.findByEmail(principal.getName()));
         model.addAttribute("orders", myOrderRepository.findOrderByUserId(user.getId()));
+        model.addAttribute("cartCount", GlobalData.cart.size());
         return "userOrders";
     }
 

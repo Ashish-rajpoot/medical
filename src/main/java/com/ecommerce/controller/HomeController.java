@@ -12,9 +12,12 @@ import com.ecommerce.model.Order;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +30,11 @@ import com.ecommerce.repository.MyOrderRepository;
 import com.ecommerce.repository.UserRepository;
 import com.ecommerce.services.CategoryService;
 import com.ecommerce.services.ProductService;
+import com.ecommerce.util.ImageUtil;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 
 @Controller
-//@RequestMapping("/user/")
 public class HomeController {
 
     @Autowired
@@ -91,7 +94,7 @@ public class HomeController {
         object.put("receipt", "txn_210427");
 
         com.razorpay.Order order = client.orders.create(object);
-        System.out.println(order);
+        System.out.println(" line number 97 " +order);
 
         Order myOrder = new Order();
         ArrayList<Product> cart = GlobalData.cart;
@@ -140,4 +143,17 @@ public class HomeController {
         }
     }
 
+    @GetMapping("/product/{imageName}")
+    public ResponseEntity<byte[]> downloadImage(@PathVariable("imageName") String imageName, Model model) {
+         Product image = productService.downloadImage(imageName);
+        String imageType = StringUtils.getFilenameExtension(imageName);  
+        System.out.println(imageType);
+        byte[] imageData =ImageUtil.decompressImage(image.getImageData());
+//        System.out.println(image);
+//        model.addAttribute("image",image);
+//        model.addAttribute("imageType",MediaType.valueOf(imageType));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.valueOf("image/"+imageType))
+                    .body(imageData);
+    }
 }

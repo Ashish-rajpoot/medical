@@ -3,6 +3,7 @@ package com.ecommerce.dto;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 public class ProductDTO {
 	@Id
@@ -14,7 +15,18 @@ public class ProductDTO {
 	private int quantity;
 	private String description;
 	private String imageName;
-	public Integer getId() {
+	@Lob
+    private byte[] imageData;
+    
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+    public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {

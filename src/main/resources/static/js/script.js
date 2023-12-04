@@ -1,5 +1,6 @@
 
 function paymentStart() {
+	var path = window.location
 	let amount = $("#payment_field").val();
 	console.log(amount);
 	if (amount == "" || amount == null || amount <= 0) {
@@ -15,14 +16,12 @@ function paymentStart() {
 		return;
 	}
 
-
+console.log("Post to be called")
 	$.ajax({
-		url: '/createOrder',
-		// url: '/user/createOrder',
-		//  data:{amount:amount},
-		data: JSON.stringify({ amount: amount, info: 'order_request' }),
-		contentType: 'application/json',
 		type: 'POST',
+		url: "/createOrder",
+		data: JSON.stringify({ amount: amount, info: 'order_request' }),
+		contentType: "application/json",
 		dataType: 'json',
 		success: function(response) {
 			console.log(response)
@@ -79,7 +78,8 @@ function paymentStart() {
 function updatePaymentOnServer(payment_id, order_id, status) {
 	$.ajax({
 		// url: '/user/updateOrder',
-		url: '/updateOrder',
+		type: 'POST',
+		url: "/medical/updateOrder",
 		//  data:{amount:amount},
 		data: JSON.stringify({
 			payment_id: payment_id,
@@ -87,7 +87,6 @@ function updatePaymentOnServer(payment_id, order_id, status) {
 			status: status
 		}),
 		contentType: 'application/json',
-		type: 'POST',
 		dataType: 'json',
 		success: function(response) {
 			swal("good job", "congrates !! payment success,", "success");
@@ -109,14 +108,14 @@ function updatePaymentOnServer(payment_id, order_id, status) {
 };
 
 
-window.onload = () => {
+/*window.onload = () => {
 	var payBtn = document.getElementById("payment_field");
 	var total = payBtn.val();
 	console.log(total);
 	if (total <= 0) {
 		document.getElementById("pay_btn").disabled = true
 	}
-};
+};*/
 function checkAmount() {
 	var cartCheckoutBtn = document.getElementById("cartCheckout");
 	var cartCheckoutAmount = document.getElementById("cartCheckoutAmount").value;

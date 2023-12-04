@@ -26,7 +26,6 @@ import com.ecommerce.repository.UserRepository;
 import com.ecommerce.services.UserService;
 
 @Controller
-
 public class LoginController {
 
 	@Autowired

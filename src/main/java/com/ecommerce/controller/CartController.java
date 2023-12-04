@@ -34,9 +34,4 @@ public class CartController {
 		GlobalData.cart.remove(id);
 		return "redirect:/cart";
 	}
-//	@GetMapping("/checkout")
-//	public String checkout(Model model) {
-//		model.addAttribute("total",GlobalData.cart.stream().mapToDouble(Product::getPrice).sum());
-//		return "checkout";
-//	}
 }

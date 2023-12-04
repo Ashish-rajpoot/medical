@@ -18,12 +18,31 @@
 	border: 1px solid #ce93d8;
 	box-shadow: 0 0 0 1px #ce93d8;
 }
+
+li,a {
+
+	text-decoration: none;
+}
 </style>
 
 </head>
 <body>
 	<div th:fragment="userHeader">
-
+		<script th:src="@{/js/script.js}"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"></script>
+		<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+			integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+			crossorigin="anonymous"></script>
 		<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#"> <img
@@ -47,6 +66,8 @@
 						<li class="nav-item active"><a class="nav-link"
 							th:href="@{/}" href="#">home</a></li>
 						<li class="nav-item active"><a class="nav-link"
+							th:href="@{https://rzp.io/l/ZLzIlwdqR3}" href="#">Contribute</a></li>
+						<li class="nav-item active"><a class="nav-link"
 							th:href="@{/shop}" href="#">shop</a></li>
 						<li class="nav-item active"><a class="nav-link"
 							th:href="@{/user/userOrders}" href="#"
@@ -64,10 +85,10 @@
 								class="ml-2 cart-btn" th:text="${cartCount}">0</span> </a></li>
 
 						<li class="nav-item active" sec:authorize="isAnonymous()"><a
-							class="nav-link" href="/login">Login</a></li>
+							class="nav-link" th:href="@{/login}">Login</a></li>
 
 						<li class="nav-item active" sec:authorize="isAnonymous()"><a
-							class="nav-link" href="/register">sighUp</a></li>
+							class="nav-link" th:href="@{/register}">sighUp</a></li>
 					</ul>
 
 				</div>
@@ -76,7 +97,22 @@
 		<br /> <br /> <br />
 	</div>
 
-	<div  th:fragment="adminHeader">
+	<div th:fragment="adminHeader">
+		<script th:src="@{/js/script.js}"></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"></script>
+		<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+			integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+			crossorigin="anonymous"></script>
 		<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#"> <!--   <img th:src="@{/images/logo.png}"  src="../static/images/logo.png" width="auto" height="40" class="d-inline-block align-top" alt=""/> -->
@@ -108,9 +144,9 @@
 						<li class="nav-item active"><a class="nav-link"
 							th:href="@{/profile}" href="#">Profile</a></li>
 						<li class="nav-item active" sec:authorize="isAnonymous()"><a
-							class="nav-link" href="/login">Login</a></li>
+							class="nav-link" th:href="@{/login}">Login</a></li>
 						<li class="nav-item active" sec:authorize="isAuthenticated()"><a
-							class="nav-link" href="/logout">Logout</a></li>
+							class="nav-link" th:href="@{/logout}">Logout</a></li>
 
 					</ul>
 
@@ -142,8 +178,10 @@
 			role="alert" id="alert">
 			<span th:text="${session.errorMsg}"> </span>
 		</div>
-		<th:block th:if="${session.successMsg}?${#session.removeAttribute('successMsg')}:''"></th:block>
-		<th:block th:if="${session.errorMsg}?${#session.removeAttribute('errorMsg')}:''"></th:block>
+		<th:block
+			th:if="${session.successMsg}?${#session.removeAttribute('successMsg')}:''"></th:block>
+		<th:block
+			th:if="${session.errorMsg}?${#session.removeAttribute('errorMsg')}:''"></th:block>
 	</div>
 	<!--  Error Msg End-->
 
@@ -151,19 +189,58 @@
 
 
 	<div th:fragment="footer">
-	<br /><br /><br /><br />
+		<br /> <br /> <br /> <br />
 		<footer
 			class="fixed-bottom  pt-md-2  pt-lg-4 pb-lg-4 border-top text-center  bg-light">
 			<!-- <footer class="fixed-bottom my-sm-4 pt-md-2 my-lg-2 pt-lg-3 pb-lg-3 border-top text-center  bg-light"> -->
 			<div class="mx-2">
-				<div class="col-12 col-md text-center">
+			<div class="container text-center">
+				<div class="row ">
+					<div class="col-md-12">
+						<!-- <div class="col-sm-6 "  > -->
+								<a th:href="@{https://merchant.razorpay.com/policy/KjrZGOZcB5Cy6F/contact_us}">Contact Us</a> |
+								<a th:href="@{https://merchant.razorpay.com/policy/KjrZGOZcB5Cy6F/shipping}">Shipping and Delivery Policy</a> | 
+								<a th:href="@{https://merchant.razorpay.com/policy/KjrZGOZcB5Cy6F/refund}">Cancellation and Refund Policy</a> | 
+								<a th:href="@{https://merchant.razorpay.com/policy/KjrZGOZcB5Cy6F/terms}">Terms and Conditions</a> |
+								<a th:href="@{https://merchant.razorpay.com/policy/KjrZGOZcB5Cy6F/privacy}">Privacy Policy</a>
+								
+						
+						
+						
+							<!-- <ul style="text-decoration: none;">
+								<li>
+								<a th:href="@{https://merchant.razorpay.com/policy/KjrZGOZcB5Cy6F/contact_us}">Contact Us</a>
+								</li>
+								<li>
+								<a th:href="@{https://merchant.razorpay.com/policy/KjrZGOZcB5Cy6F/shipping}">Shipping and Delivery Policy</a>
+								</li>
+								<li>
+								<a th:href="@{https://merchant.razorpay.com/policy/KjrZGOZcB5Cy6F/refund}">Cancellation and Refund Policy</a>
+								</li>
+								<li>
+								<a th:href="@{https://merchant.razorpay.com/policy/KjrZGOZcB5Cy6F/terms}">Terms and Conditions</a>
+								</li>
+								<li>
+								<a th:href="@{https://merchant.razorpay.com/policy/KjrZGOZcB5Cy6F/privacy}">Privacy Policy</a>
+								</li>
+							</ul> -->
+						</div>
+						<!-- </div> -->
+				
+				</div>
+
+			</div>
+
+				<!-- <div class="col-12 col-md text-center">
 					Medical Shop <span class="d-inline-block text-muted"> &nbsp
 						| &nbsp Designed & Developed By</span> <strong>Ashish Rajpoot</strong>
-				</div>
+				</div> -->
 			</div>
 			<script th:src="@{/js/script.js}"></script>
+			
 			<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"></script>
+			<script
+				src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"></script>
 			<script src="https://code.jquery.com/jquery-3.6.1.min.js"
 				integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
 				crossorigin="anonymous"></script>

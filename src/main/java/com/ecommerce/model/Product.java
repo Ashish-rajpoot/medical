@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -27,10 +28,29 @@ public class Product {
 	private int quantity;
 	private String description;
 	private String imageName;
+	@Lob
+	private byte[] imageData;
+	
 
-	@ManyToMany(mappedBy = "orderProduct")
+	public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    public Set<Order> getOrder() {
+        return Order;
+    }
+
+    public void setOrder(Set<Order> order) {
+        Order = order;
+    }
+
+    @ManyToMany(mappedBy = "orderProduct")
 	private Set<Order> Order;
-
+	
 	
 	public Integer getId() {
 		return id;
@@ -112,23 +132,7 @@ public class Product {
         this.description = description;
         this.imageName = imageName;
     }
-    /*
-<<<<<<< HEAD
-     * public Order getoMyOrder() {
-     * return oMyOrder;
-     * }
-     * 
-     * public void setoMyOrder(Order oMyOrder) {
-=======
-     * public MyOrder getoMyOrder() {
-     * return oMyOrder;
-     * }
-     * 
-     * public void setoMyOrder(MyOrder oMyOrder) {
->>>>>>> 0b4646701fc65f0420ed1418ca6f0b5fb3da373d
-     * this.oMyOrder = oMyOrder;
-     * }
-     */
+    
 
     
     

@@ -17,7 +17,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <div th:replace="fragments::searchProduct"></div>
 <div th:replace="fragments::messageHandler"></div>
     <a th:href="@{/admin/products/add}" style="margin: 20px 0" class="btn btn-primary">Add Product</a>
-    <table class="table">
+    <table class="table text-center">
         <thead class="thead-light">
         <tr>
             <th scope="col">SN</th>
@@ -30,12 +30,12 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
         </thead>
         <tbody>
 
-        <tr th:each="product, iStat : ${products}">
+        <tr th:each="product, iStat : ${products}" class="text-center">
             <th scope="row" th:text="${iStat.index + 1}">1</th>
             <td th:text="${product.name}">Larry</td>
             <td th:text="${product.category.name}">Larry</td>
-            <td><img src="" height="100px" width="100px"  th:src="@{${'/productImages/' + product.imageName}}"></td>
-
+            <td><img src="" height="120px" width="120px"  th:src="@{'/admin/product/'+${product.imageName}}"></td>
+        <!--      <td><img src="" height="100px" width="100px"  th:src="@{${'/productImages/' + product.imageName}}"></td>  -->
             <td><a href="" th:href="@{/admin/product/delete/{id}(id=${product.id})}" class="btn btn-danger">Delete</a></td>
             <td><a href="" th:href="@{/admin/product/update/{id}(id=${product.id})}" class="btn btn-warning">Update</a></td>
 

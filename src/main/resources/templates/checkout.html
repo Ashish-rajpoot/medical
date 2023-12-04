@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<script type="text/javascript">
 
+src = "https://checkout.razorpay.com/v1/checkout.js" >
+</script>
     <title>Document</title>
 </head>
 
@@ -171,6 +174,9 @@
                          <!--   <strong>
                           Confirm Amount
                                         </strong> -->
+                                <!-- Helper field for context -->
+                                        
+                                        
                            <input type="hidden" id="payment_field" th:value="${total}*1">
                           
                           </label>
@@ -231,11 +237,19 @@
         </div>
 
 
+
+
 <div th:replace="fragments::footer"></div>
   <script 
   src = "https://checkout.razorpay.com/v1/checkout.js" >
 
   alert(document.body.getAttribute("cartCount"))
+  var payBtn = document.getElementById("payment_field");
+	var total = payBtn.val();
+	console.log(total);
+	if (total <= 0) {
+		document.getElementById("pay_btn").disabled = true
+	}
   
 </script>
 </body>

@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo 'Hello, Build'
                 sh '''
-                   sudo docker image build -t medical .
+                   sudo -S docker image build -t medical .
                 '''
             }
         }

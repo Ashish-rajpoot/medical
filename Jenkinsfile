@@ -3,6 +3,7 @@ pipeline {
         triggers{
         pollSCM('* * * * *')
     }
+     stages {
     stage('Install JDK and Maven') {
             steps {
                 script {
@@ -20,7 +21,7 @@ pipeline {
                 }
             }
         }
-    stages {
+   
         stage('Compile Stage') {
             steps {
                 echo 'Hello, Compile'

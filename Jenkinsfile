@@ -1,27 +1,13 @@
 pipeline {
     agent any
-        triggers{
+        tools {
+    jdk 'jdk 8'
+    maven 'maven_3.6.3'
+  }
+    triggers{
         pollSCM('* * * * *')
     }
-     stages {
-    stage('Install JDK and Maven') {
-            steps {
-                script {
-                    // Install OpenJDK 8
-                    sh 'sudo apt update'
-                    sh 'sudo apt install -y openjdk-8-jdk'
-                    
-                    // Download Maven binary archive and set it up
-                    sh '''
-                        wget -q https://apache.osuosl.org/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
-                        sudo tar xf apache-maven-3.8.4-bin.tar.gz -C /opt
-                        sudo ln -s /opt/apache-maven-3.8.4 /opt/maven
-                        sudo update-alternatives --install /usr/bin/mvn mvn /opt/maven/bin/mvn 1001
-                    '''
-                }
-            }
-        }
-   
+    stages {
         stage('Compile Stage') {
             steps {
                 echo 'Hello, Compile'

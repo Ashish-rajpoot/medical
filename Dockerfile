@@ -1,3 +1,3 @@
 FROM openjdk:8-jdk
-COPY ./target/medical.war medical.war
-CMD [ "java","-jar","medical.war"]
+COPY ./target/medical.jar medical.jar
+CMD [ "java","-jar","medical.jar"]

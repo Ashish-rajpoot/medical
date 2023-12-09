@@ -49,7 +49,8 @@ pipeline {
                      else \
                     echo OK; \
                  fi;);
-               sudo  kill $(lsof -i :8082 | grep -v "PID" | tr -s ' ' | cut -d ' ' -f 2)
+                 
+              // sudo  kill $(lsof -i :8082 | grep -v "PID" | tr -s ' ' | cut -d ' ' -f 2)
             echo killed;\
             sudo docker container run --restart always --name medical -p 8082:8088 -d medical
             '''

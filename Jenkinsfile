@@ -43,22 +43,22 @@ pipeline {
             steps {
                 echo 'Hello, Docker Deployment.'
                 sh '''
-                 (if  [ $( sudo docker ps -a | grep medical | cut -d " " -f1) ]; then \
-                        echo $(sudo docker rm -f medical); \
-                        echo "---------------- successfully removed ecom-webservice ----------------"
-                     else \
-                    echo OK; \
-                 fi;);
-                 
-                 (if [$(sudo lsof -i :8082)];then \
-                        echo $(sudo kill $(lsof -i :8082 | grep -v "PID" | tr -s ' ' | cut -d ' ' -f 2));\
-                 	    echo "-------------------killed all process-------------------------------------"
-                 	else \
-                 	echo OK;\
-                 fi;);
-                 
+            if [ "$(sudo docker ps -a | grep medical | cut -d " " -f1)" ]; then
+                echo "$(sudo docker rm -f medical)"
+                echo "---------------- successfully removed ecom-webservice ----------------"
+            else
+                echo OK
+            fi
+            
+            if [ "$(sudo lsof -i :8082)" ]; then
+                echo "$(sudo kill $(lsof -i :8082 | grep -v "PID" | tr -s ' ' | cut -d ' ' -f 2))"
+                echo "-------------------killed all process-------------------------------------"
+            else
+                echo OK
+            fi
+            
             sudo docker container run --restart always --name medical -p 8082:8088 -d medical
-            '''
+        '''
             }
         }    
     }

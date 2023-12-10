@@ -64,7 +64,7 @@ pipeline {
                 echo OK
             fi
              echo '*************Deploying*************'
-            sudo docker container run --restart always --name medical --env-file medicalenv -p 8082:8088 -d medical 
+            sudo docker container run --restart always --name medical --env-file /home/vboxuser/medicalenv -p 8082:8088 -d medical 
         
             '''
             }

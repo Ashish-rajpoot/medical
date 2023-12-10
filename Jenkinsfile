@@ -56,10 +56,12 @@ pipeline {
         stage('Removing Container') {
             steps {
                 echo 'Hello, Removing docker if already running.'
+                // def isRunning = sh(return
                 sh '''
-            if sudo docker ps -a | grep medical | cut -d " " -f1 ; then
-                sudo docker stop medical \
-                sudo docker rm -f medical \
+            if (sudo docker ps -a | grep medical | cut -d " " -f1) ; then
+                sudo docker stop medical 
+                sudo docker rm -f medical
+
                 echo "---------------- successfully removed ecom-webservice ----------------"
             else
                 echo OK

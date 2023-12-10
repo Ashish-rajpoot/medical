@@ -56,10 +56,10 @@ pipeline {
             steps {
                 echo 'Hello, killing all the port if running in detach mode.'
             sh'''
-            if [ "$(sudo lsof -i :8082)" ]; then
-                echo "$(sudo kill $(lsof -i :8082 | grep -v "PID" | tr -s ' ' | cut -d ' ' -f 2))"
-                echo "-------------------killed all process-------------------------------------"
-            else
+            if sudo lsof -i :8082; then
+               sudo lsof -i :8082 | grep -v "PID" | awk '{print $2}' | xargs sudo kill
+            echo "-------------------killed all processes-------------------------------------"
+        else
                 echo OK
             fi
             

@@ -35,7 +35,8 @@ pipeline {
         }
         stage('Push docker image'){
             steps {
-                sh 'sudo docker push ashish142/medical:1.0.0'
+            echo 'push is commented for now'
+              //  sh 'sudo docker push ashish142/medical:1.0.0'
             }
         }
         stage('Killing the running task') {

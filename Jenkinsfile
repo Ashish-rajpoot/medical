@@ -43,7 +43,7 @@ pipeline {
                 echo 'Hello, killing all the port if running in detach mode.'
             sh'''
             if sudo lsof -i :8082; then
-               sudo lsof -i :8082 | grep -v "PID" | awk '{print $2}' | xargs sudo kill
+               sudo lsof -i :8082 | grep -v "PID" | awk '{print $2}' | xargs sudo kill 
             echo "-------------------killed all processes-------------------------------------"
         else
                 echo OK
@@ -57,8 +57,9 @@ pipeline {
             steps {
                 echo 'Hello, Removing docker if already running.'
                 sh '''
-            if [ "$(sudo docker ps -a | grep medical | cut -d " " -f1)" ]; then
-                echo "$(sudo docker rm -f medical)"
+            if sudo docker ps -a | grep medical | cut -d " " -f1 ; then
+                sudo docker stop medical \
+                sudo docker rm -f medical \
                 echo "---------------- successfully removed ecom-webservice ----------------"
             else
                 echo OK

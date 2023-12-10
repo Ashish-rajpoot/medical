@@ -38,6 +38,20 @@ pipeline {
                 sh 'sudo docker push ashish142/medical:1.0.0'
             }
         }
+        stage('Killing the running task') {
+            steps {
+                echo 'Hello, killing all the port if running in detach mode.'
+            sh'''
+            if sudo lsof -i :8082; then
+               sudo lsof -i :8082 | grep -v "PID" | awk '{print $2}' | xargs sudo kill
+            echo "-------------------killed all processes-------------------------------------"
+        else
+                echo OK
+            fi
+            
+           '''
+            }
+        }    
 
         stage('Removing Container') {
             steps {
@@ -49,24 +63,12 @@ pipeline {
             else
                 echo OK
             fi
+             echo '*************Deploying*************'
+            sudo docker container run --restart always --name medical --env-file medicalenv -p 8082:8088 -d medical 
+        
             '''
             }
             }
-            stage('Killing the running task') {
-            steps {
-                echo 'Hello, killing all the port if running in detach mode.'
-            sh'''
-            if sudo lsof -i :8082; then
-               sudo lsof -i :8082 | grep -v "PID" | awk '{print $2}' | xargs sudo kill
-            echo "-------------------killed all processes-------------------------------------"
-        else
-                echo OK
-            fi
             
-            echo '*************Deploying*************'
-            sudo docker container run --restart always --name medical -p 8082:8088 -d medical --env-file medicalenv
-        '''
-            }
-        }    
     }
 }

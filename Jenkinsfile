@@ -39,9 +39,9 @@ pipeline {
             }
         }
 
-        stage('Deploy Stage') {
+        stage('Removing Container') {
             steps {
-                echo 'Hello, Docker Deployment.'
+                echo 'Hello, Removing docker if already running.'
                 sh '''
             if [ "$(sudo docker ps -a | grep medical | cut -d " " -f1)" ]; then
                 echo "$(sudo docker rm -f medical)"
@@ -49,7 +49,13 @@ pipeline {
             else
                 echo OK
             fi
-            
+            '''
+            }
+            }
+            stage('Killing the running task') {
+            steps {
+                echo 'Hello, killing all the port if running in detach mode.'
+            sh'''
             if [ "$(sudo lsof -i :8082)" ]; then
                 echo "$(sudo kill $(lsof -i :8082 | grep -v "PID" | tr -s ' ' | cut -d ' ' -f 2))"
                 echo "-------------------killed all process-------------------------------------"
@@ -57,6 +63,7 @@ pipeline {
                 echo OK
             fi
             
+            echo '*************Deploying*************'
             sudo docker container run --restart always --name medical -p 8082:8088 -d medical
         '''
             }
